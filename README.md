@@ -12,4 +12,5 @@ brew install jesseduffield/lazygit/lazygit
 
 ```bash
 ln -s $(pwd)/lvim/* ~/.config/lvim
+ln -s $PWD/workspace/dotfiles/tmux/tmux.conf $PWD/.config/tmux/tmux.conf
 ```
