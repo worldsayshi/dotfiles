@@ -1,2 +1,7 @@
 config:
   show-name: false
+
+icons:
+  tilt: "󰤸"
+  pnpm: ""
+  k9s: "󰩃"
