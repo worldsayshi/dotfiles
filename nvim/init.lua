@@ -66,10 +66,16 @@ function Refactor_file()
     border = "rounded",
   })
 
+  -- Set buffer options
+  vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+  vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')
+
   -- Function to append lines to the buffer
   local function append_line(_, data)
     if data then
+      vim.api.nvim_buf_set_option(buf, 'modifiable', true)
       vim.api.nvim_buf_set_lines(buf, -1, -1, false, data)
+      vim.api.nvim_buf_set_option(buf, 'modifiable', false)
     end
   end
 
@@ -78,24 +84,30 @@ function Refactor_file()
     on_stdout = append_line,
     on_stderr = append_line,
     on_exit = function(_, exit_code)
+      vim.api.nvim_buf_set_option(buf, 'modifiable', true)
       if exit_code ~= 0 then
         vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "", "Error: Command exited with code " .. exit_code })
       else
         vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "", "Refactoring completed successfully." })
       end
+      vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+      
       -- Reload the current file
       vim.cmd("edit!")
+      
+      -- Set up autocmd to close the floating window when cursor moves
+      vim.api.nvim_create_autocmd("CursorMoved", {
+        buffer = buf,
+        callback = function()
+          vim.api.nvim_win_close(win, true)
+        end,
+        once = true,
+      })
     end,
   })
 
-  -- Set up autocmd to close the floating window when cursor moves
-  vim.api.nvim_create_autocmd("CursorMoved", {
-    buffer = buf,
-    callback = function()
-      vim.api.nvim_win_close(win, true)
-    end,
-    once = true,
-  })
+  -- Set up a keymap to close the floating window
+  vim.api.nvim_buf_set_keymap(buf, "n", "q", ":close<CR>", { noremap = true, silent = true })
 end
 
 -- Set up the key mapping
