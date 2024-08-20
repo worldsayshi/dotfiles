@@ -52,17 +52,52 @@ function Refactor_file()
     cmd = cmd .. " --check"
   end
 
-  -- Execute the command
-  local output = vim.fn.system("clear && " .. cmd)
+  -- Create a floating window with a new buffer
+  local buf = vim.api.nvim_create_buf(false, true)
+  local width = math.floor(vim.o.columns * 0.8)
+  local height = math.floor(vim.o.lines * 0.8)
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = math.floor((vim.o.columns - width) / 2),
+    row = math.floor((vim.o.lines - height) / 2),
+    style = "minimal",
+    border = "rounded",
+  })
 
-  if vim.v.shell_error then
-    vim.notify("Error when running `" .. cmd .. "`: " .. output, vim.log.levels.ERROR)
-    return
+  -- Function to append lines to the buffer
+  local function append_line(_, data)
+    if data then
+      vim.api.nvim_buf_set_lines(buf, -1, -1, false, data)
+    end
   end
 
-  -- Reload the file
-  vim.cmd("edit!")
+  -- Execute the command and stream output to the buffer
+  vim.fn.jobstart(cmd, {
+    on_stdout = append_line,
+    on_stderr = append_line,
+    on_exit = function(_, exit_code)
+      if exit_code ~= 0 then
+        vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "", "Error: Command exited with code " .. exit_code })
+      else
+        vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "", "Refactoring completed successfully." })
+      end
+      -- Reload the current file
+      vim.cmd("edit!")
+    end,
+  })
+
+  -- Set up autocmd to close the floating window when cursor moves
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    buffer = buf,
+    callback = function()
+      vim.api.nvim_win_close(win, true)
+    end,
+    once = true,
+  })
 end
 
 -- Set up the key mapping
 vim.api.nvim_set_keymap("n", "<leader>r", ":lua Refactor_file()<CR>", { noremap = true, silent = true })
+
