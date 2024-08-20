@@ -67,15 +67,15 @@ function Refactor_file()
   })
 
   -- Set buffer options
-  vim.api.nvim_buf_set_option(buf, 'modifiable', false)
-  vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')
+  vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
+  vim.api.nvim_set_option_value("buftype", "nofile", { buf = buf })
 
   -- Function to append lines to the buffer
   local function append_line(_, data)
     if data then
-      vim.api.nvim_buf_set_option(buf, 'modifiable', true)
+      vim.api.nvim_set_option_value("modifiable", true, { buf = buf })
       vim.api.nvim_buf_set_lines(buf, -1, -1, false, data)
-      vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+      vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
     end
   end
 
@@ -84,17 +84,17 @@ function Refactor_file()
     on_stdout = append_line,
     on_stderr = append_line,
     on_exit = function(_, exit_code)
-      vim.api.nvim_buf_set_option(buf, 'modifiable', true)
+      vim.api.nvim_set_option_value("modifiable", true, { buf = buf })
       if exit_code ~= 0 then
         vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "", "Error: Command exited with code " .. exit_code })
       else
         vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "", "Refactoring completed successfully." })
       end
-      vim.api.nvim_buf_set_option(buf, 'modifiable', false)
-      
+      vim.api.nvim_set_option_value("modifiable", false, { buf = buf })
+
       -- Reload the current file
       vim.cmd("edit!")
-      
+
       -- Set up autocmd to close the floating window when cursor moves
       vim.api.nvim_create_autocmd("CursorMoved", {
         buffer = buf,
@@ -112,4 +112,3 @@ end
 
 -- Set up the key mapping
 vim.api.nvim_set_keymap("n", "<leader>r", ":lua Refactor_file()<CR>", { noremap = true, silent = true })
-
