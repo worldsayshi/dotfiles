@@ -1,3 +1,4 @@
+vim.api.nvim_set_keymap("n", "<Space>cp", "<Cmd>CopilotChat<CR>", { noremap = true, silent = true })
 return {
   {
     "CopilotC-Nvim/CopilotChat.nvim",
