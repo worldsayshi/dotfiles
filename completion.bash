@@ -14,3 +14,9 @@ fi
 if command -v pnpm &>/dev/null; then
   source <(pnpm completion bash)
 fi
+
+# Check if 'just' exists and add completion if it does
+if command -v just &>/dev/null; then
+  source <(just --completions bash)
+fi
+
