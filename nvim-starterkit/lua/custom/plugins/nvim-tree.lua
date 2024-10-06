@@ -1,3 +1,4 @@
+print 'hello from nvim-tree'
 return {
   {
     'kyazdani42/nvim-tree.lua',
