@@ -10,9 +10,10 @@ return {
     keys = {
       {
         '<leader>fe',
-        function()
-          require('neo-tree.command').execute { toggle = true, dir = vim.loop.cwd() }
-        end,
+        ':Neotree reveal<CR>',
+        -- function()
+        --   require('neo-tree.command').execute { toggle = true, dir = vim.loop.cwd() }
+        -- end,
         desc = 'Explorer NeoTree (Root Dir)',
       },
       {
