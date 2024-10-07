@@ -30,6 +30,7 @@ return {
       { '<leader>p', '<cmd>Grapple cycle_tags prev<cr>', desc = 'Grapple cycle previous tag' },
     },
   },
+  -- { 'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons' },
   require 'custom.plugins.lazygit',
   require 'custom.plugins.vim-tmux-navigator',
 }
