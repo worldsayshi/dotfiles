@@ -30,4 +30,6 @@ return {
     },
   },
   require 'custom.plugins.lazygit',
+  require 'custom.plugins.vim-tmux-navigator',
+  'mfussenegger/nvim-lint',
 }
