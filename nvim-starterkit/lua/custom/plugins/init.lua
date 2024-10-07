@@ -3,6 +3,7 @@
 --
 -- See the kickstart.nvim README for more information
 return {
+  require 'custom.plugins.fzf',
   -- require 'custom.plugins.nvim-tree',
   require 'custom.plugins.neo-tree',
   require 'custom.plugins.just',
@@ -31,5 +32,4 @@ return {
   },
   require 'custom.plugins.lazygit',
   require 'custom.plugins.vim-tmux-navigator',
-  'mfussenegger/nvim-lint',
 }

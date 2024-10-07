@@ -25,7 +25,7 @@ return {
       vim.keymap.set('n', '<leader>s.', fzf.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', fzf.buffers, { desc = '[ ] Find existing buffers' })
 
-      local km = vim.keymap
+      -- local km = vim.keymap
 
       -- km.set('n', '<leader>p', require('fzf-lua').files, { desc = 'Fzf Files' })
       --
@@ -58,12 +58,12 @@ return {
       --   vim.lsp.buf.code_action()
       -- end, { desc = "Code Actions" })
 
-      km.set(
-        'n',
-        '<leader>ca',
-        ":lua require'fzf-lua'.lsp_code_actions({ winopts = {relative='cursor',row=1.01, col=0, height=0.2, width=0.4} })<cr>",
-        { desc = 'Code Actions' }
-      )
+      -- km.set(
+      --   'n',
+      --   '<leader>ca',
+      --   ":lua require'fzf-lua'.lsp_code_actions({ winopts = {relative='cursor',row=1.01, col=0, height=0.2, width=0.4} })<cr>",
+      --   { desc = 'Code Actions' }
+      -- )
     end,
   },
 }

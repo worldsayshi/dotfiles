@@ -104,7 +104,7 @@ return {
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
   -- require 'kickstart.plugins.telescope',
-  require 'custom.plugins.fzf',
+  -- require 'custom.plugins.fzf',
 
   -- LSP Plugins
   {
@@ -602,7 +602,7 @@ return {
 
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
